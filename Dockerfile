@@ -1,16 +1,17 @@
-# Create the image from node:18-alpine by downloading it
+# Download the Registry image node:18-alpine to create a new image for the app
 FROM node:18-alpine
 
-# Create target directory /app
+# Create target directory /app in the container
 WORKDIR /app
 
-# Copy the instructions to application
+# Copy all the source files from the project folder to /app folder
 COPY . .
 
-#install the application dependencies
+# install the application dependencies from package.json. Download the 'production' release
 RUN yarn install --production
 
-#default command to run when starting the container from this image
+# default command to run when starting the container from this image
+# cmd> node src/index.js to start the app
 CMD ["node", "src/index.js"]
 
 # host the application at port 3000
