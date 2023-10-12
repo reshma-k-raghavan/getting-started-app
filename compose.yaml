@@ -1,0 +1,35 @@
+# Service config
+services:
+
+  # network alias for the app container
+  app:    
+    image: node:18-alpine  
+    command: sh -c "yarn install && yarn run dev"
+    ports:
+      - 127.0.0.1:3000:3000
+    working_dir: /app
+    volumes:
+      # bind mountpoint from source current directory './' to target folder in container '/app'    
+      - ./:/app
+    environment:
+      # the connection settings required for the app code to connect to the mysql db
+      MYSQL_HOST : mysql
+      MYSQL_USER : root
+      MYSQL_PASSWORD : secret
+      MYSQL_DB: todos
+
+  # network alias for mysql container
+  mysql:
+    image: mysql:8.0
+    volumes:
+      # volume mountpoint to map the empty volume 'todo-mysql-data' to mysql db data in container path
+      # And mount the volume on to the host machine path /var/lib/mysql
+      - todo-mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD : secret
+      MYSQL_DATABASE : todos
+
+# Volume Mapping
+volumes:
+  # named volume, Create a new empty volume: todo-mysql-data
+  todo-mysql-data : 
