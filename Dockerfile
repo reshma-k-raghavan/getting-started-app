@@ -7,7 +7,7 @@ WORKDIR /app
 # Copy all the source files from the project folder to /app folder
 COPY . .
 
-# install the application dependencies from package.json. Download the 'production' release
+# Install only production dependencies from package.json. Do not download/install the dev dependencies
 RUN yarn install --production
 
 # default command to run when starting the container from this image
